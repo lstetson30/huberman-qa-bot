@@ -9,3 +9,4 @@ def timeit(func):
         print(f"{func.__name__} took {execution_time} seconds.")
         return result
     return wrapper
+
