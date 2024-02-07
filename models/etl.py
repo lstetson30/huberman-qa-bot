@@ -1,7 +1,4 @@
 import json
-import sqlite3
-import numpy as np
-import io
 import chromadb
 
 from utils.general_utils import timeit
@@ -10,7 +7,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 
 
 @timeit
-def main(json_path="data/videos.json", db=None, batch_size=None, overlap=None):
+def run_etl(json_path="data/videos.json", db=None, batch_size=None, overlap=None):
     with open(json_path) as f:
         video_info = json.load(f)
         
