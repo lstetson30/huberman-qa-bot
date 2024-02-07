@@ -10,13 +10,34 @@ api_key = os.getenv("OPENAI_API_KEY")
 
 # Create the OpenAI client
 client = openai.OpenAI(api_key=api_key)
+
+context_result_base = "CONTEXT: {text}\nTITLE: {title}\nSOURCE: {source}\n\n"
+
+def format_context(db_query_results):
+    documents = db_query_results['documents'][0]
+    metadatas = db_query_results['metadatas'][0]
     
-def answer_question(question, context):
-    instruction = '''Answer the users question using the context below. Each blurb starts with a triple backtick.  If there is a relevant blurb that answers the question, reference its "title" and "source" from the JSON below the blurb. If no blurbs are relevant, the source is "N/A". The format should be as follows:\nUser: question\nAI: answer\n[SOURCE: source_url]\n\n''' + str([{'text': result[0], 'metadata': result[2]} for result in context])
+    formatted_context = ""
+    for i in range(len(documents)):
+        result_text = context_result_base.format(text=documents[i], title=metadatas[i]['title'], source=metadatas[i]['source'])
+        formatted_context += result_text
+    
+    return formatted_context
+
+
+def answer_with_context(question, context, model="gpt-3.5-turbo-1106", temperature=0.5):
+    formatted_context = format_context(context)
+    
+    instruction = '''Answer the question using the RELEVANT CONTEXT below. If there is a CONTEXT that answers the question, return its TITLE and SOURCE. If no CONTEXTs are relevant, the TITLE and SOURCE is "N/A". The format should be as follows:\n
+    User: ```What is muscle atrophy?```\n
+    AI: ```Muscle atrophy is the decrease in size and wasting of muscle tissue.\n
+    [TITLE] title from relevant CONTEXT\n
+    [SOURCE] url from relevant CONTEXT```\n\n
+    RELEVANT CONTEXT:\n```''' + formatted_context + "```"
     
     response = client.chat.completions.create(
-        model = "gpt-3.5-turbo-1106",
-        temperature=0.5,
+        model=model,
+        temperature=temperature,
         messages=[
             {"role": "system", "content": instruction},
             {"role": "user", "content": question}

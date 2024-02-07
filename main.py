@@ -1,28 +1,25 @@
 from models import llm, retrieval
-import pprint
 import gradio as gr
 
-def a(question):
-    source_data = retrieval.get_data_from_db("data/single_video.db")
+
+def run_query(question, db_path="data/videos.db", 
+              num_rel_segments=5, 
+              llm_model="gpt-3.5-turbo-1106", 
+              llm_temp=0.5):
     
-    relevant_segments = retrieval.search_segments_with_embedding(question, source_data)
+    relevant_segments = retrieval.get_relevant_segments(question,
+                                                         db_path=db_path,
+                                                         n_results=num_rel_segments)
     
-    answer = llm.answer_question(question, relevant_segments)
+    answer = llm.answer_with_context(question, 
+                                     relevant_segments, 
+                                     model=llm_model, 
+                                     temperature=llm_temp)
     
     return answer
 
 
 if __name__ == "__main__":
-    demo = gr.Interface(fn=a, inputs="text", outputs="text")
+    demo = gr.Interface(fn=run_query, inputs="text", outputs="text")
     
     demo.launch(share=True)
-
-# if __name__ == "__main__":
-#     source_data = retrieval.get_data_from_db("data/single_video.db")
-    
-#     query = input("Enter a question: ")
-    
-#     relevant_segments = retrieval.search_segments_with_embedding(query, source_data)
-    
-#     pp = pprint.PrettyPrinter()
-#     pp.pprint(llm.answer_question(query, relevant_segments))
