@@ -1,5 +1,5 @@
 from sklearn.metrics.pairwise import cosine_similarity
-from utils.embedding_utils import embed_text
+from ..utils.embedding_utils import MyEmbeddingFunction
 import numpy as np
 import io
 import sqlite3
@@ -33,6 +33,9 @@ def get_most_similar_indexes(query_embedding, segment_embeddings, top_k=10):
     similarities = cosine_similarity([query_embedding], segment_embeddings)
     most_similar_indexes = np.argsort(similarities)[0][-top_k:][::-1]
     return most_similar_indexes
+
+
+embed_text = MyEmbeddingFunction()
 
 
 def search_segments_with_embedding(query, source_data):
