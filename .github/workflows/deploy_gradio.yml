@@ -22,4 +22,4 @@ jobs:
       - name: Push to HF Spaces
         env:
           HF: ${{ secrets.HF }}
-        run: git push --force https://lstetson:$HF@huggingface.co/spaces/lstetson/Fitness_QA_Bot main
+        run: git push --force https://lstetson:$HF@huggingface.co/spaces/lstetson/Fitness_QA_Bot
