@@ -28,18 +28,21 @@ def format_context(db_query_results):
 def answer_with_context(question, context, model="gpt-3.5-turbo-1106", temperature=0.5):
     formatted_context = format_context(context)
     
-    instruction = '''Answer the question using the RELEVANT CONTEXT below. If there is a CONTEXT that answers the question, return its TITLE and SOURCE. If no CONTEXTs are relevant, the TITLE and SOURCE is "N/A". The format should be as follows:\n
+    instruction = '''Answer the user's question using the RELEVANT CONTEXT provided by the user, if possible. If there is a CONTEXT that seems to answer the question, structure you answer around that context and return its TITLE and SOURCE. If no CONTEXTs are relevant to the question, answer the question yourself and state that no relevant clips were found. The format should be as follows:\n
     User: ```What is muscle atrophy?```\n
     AI: ```Muscle atrophy is the decrease in size and wasting of muscle tissue.\n
     [TITLE] title from relevant CONTEXT\n
-    [SOURCE] url from relevant CONTEXT```\n\n
-    RELEVANT CONTEXT:\n```''' + formatted_context + "```"
+    [SOURCE] url from relevant CONTEXT```
+    '''
+    
+    formatted_context = "RELEVANT CONTEXT:\n```" + formatted_context + "```"
     
     response = client.chat.completions.create(
         model=model,
         temperature=temperature,
         messages=[
             {"role": "system", "content": instruction},
+            {"role": "user", "content": formatted_context},
             {"role": "user", "content": question}
         ]
     )

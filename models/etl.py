@@ -1,5 +1,6 @@
 import json
 import chromadb
+from datetime import datetime
 
 from utils.general_utils import timeit
 from utils.embedding_utils import MyEmbeddingFunction
@@ -25,6 +26,7 @@ def run_etl(json_path="data/videos.json", db=None, batch_size=None, overlap=None
     if db:
         initialize_db(db)
         load_data_to_db(db, videos)
+        log_data_load(json_path, db, batch_size, overlap)
     else:
         print("No database specified. Skipping database load.")
         print(videos)
@@ -107,3 +109,18 @@ def load_data_to_db(db_path, data):
     print(f"Data loaded to database at {db_path}.")
     
     
+def log_data_load(json_path, db_path, batch_size, overlap):
+    log_json = json.dumps({
+        "videos_info_path": json_path,
+        "db_path": db_path,
+        "batch_size": batch_size,
+        "overlap": overlap,
+        "load_time": str(datetime.now())
+    })
+    
+    db_file = db_path.split("/")[-1]
+    db_name = db_file.split(".")[0]
+    log_path = f"data/logs/{db_name}_load_log.json"
+    
+    with open(log_path, "w") as f:
+        f.write(log_json)

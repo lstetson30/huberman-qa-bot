@@ -1,0 +1,1 @@
+{"videos_info_path": "data/videos_subset.json", "db_path": "data/videos_subset_more_context.db", "batch_size": 15, "overlap": 10, "load_time": "2024-02-07 19:44:01.376335"}
