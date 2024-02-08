@@ -28,11 +28,11 @@ def format_context(db_query_results):
 def answer_with_context(question, context, model="gpt-3.5-turbo-1106", temperature=0.5):
     formatted_context = format_context(context)
     
-    instruction = '''Answer the user's question using the RELEVANT CONTEXT provided by the user, if possible. If there is a CONTEXT that seems to answer the question, structure you answer around that context and return its TITLE and SOURCE. If no CONTEXTs are relevant to the question, answer the question yourself and state that no relevant clips were found. The format should be as follows:\n
-    User: ```What is muscle atrophy?```\n
-    AI: ```Muscle atrophy is the decrease in size and wasting of muscle tissue.\n
-    [TITLE] title from relevant CONTEXT\n
-    [SOURCE] url from relevant CONTEXT```
+    instruction = '''You are a question-answering bot. The user will ask a question about fitness and recovery. First, you will be provided relevant context. The relevant context are segments of transcripts from Andrew Huberman's playlist on fitness and recovery where he has conversations about these topics. Answer the user's question and include the video title and link to the relevant context where they talk about the topic of the user's question.  When referencing relevant context, return its TITLE and SOURCE. If no context are related to the question, answer the question yourself and state that "No relevant clips were found". Use this format:
+User: ```What is muscle atrophy?```
+AI: ```Muscle atrophy is the decrease in size and wasting of muscle tissue.
+VIDEO: Example video title
+SOURCE: Example video url```
     '''
     
     formatted_context = "RELEVANT CONTEXT:\n```" + formatted_context + "```"
