@@ -16,13 +16,16 @@ def test_with_llm_video():
 
 @timeit
 def test_with_subset():
-    db_path = "data/videos_subset.db"
+    db_path = "data/videos_subset_more_context.db"
     
-    question = "What methods can I use to lose weight quickly?"
+    question = "How should I train for anerobic capacity?"
     print("Question: ", question)
     
     answer = run_query(question,
-                   db_path=db_path
+                   db_path=db_path,
+                   num_rel_segments=10,
+                   llm_model="gpt-3.5-turbo-0125",
+                   llm_temp=0.1
                    )
     
     print("Answer: ", answer)
