@@ -1,0 +1,25 @@
+name: Sync to HuggingFace Spaces
+on:
+  push:
+    tags:
+      - 'v*'
+
+  # to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Add remote 
+        env:
+          HF: ${{ secrets.HF }}
+        run: git remote add space https://lstetson:$HF@huggingface.co/spaces/lstetson/Fitness_QA_Bot
+      - name: Push to HF Spaces
+        env:
+          HF: ${{ secrets.HF }}
+        run: git push --force https://lstetson:$HF@huggingface.co/spaces/lstetson/Fitness_QA_Bot main
