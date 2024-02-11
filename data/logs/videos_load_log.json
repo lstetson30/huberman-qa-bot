@@ -1,1 +1,1 @@
-{"videos_info_path": "data/videos.json", "db_path": "data/videos.db", "batch_size": 15, "overlap": 10, "load_time": "2024-02-11 16:11:46.374244"}
+{"videos_info_path": "data/videos.json", "db_path": "data/videos.db", "batch_size": 15, "overlap": 10, "load_time": "2024-02-11 17:21:06.096334"}
