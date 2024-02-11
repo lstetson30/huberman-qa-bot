@@ -1,2 +1,4 @@
 data/videos_subset.db/chroma.sqlite3 filter=lfs diff=lfs merge=lfs -text
 data/videos_subset_more_context.db/chroma.sqlite3 filter=lfs diff=lfs merge=lfs -text
+data/videos.db/chroma.sqlite3 filter=lfs diff=lfs merge=lfs -text
+*.sqlite3 filter=lfs diff=lfs merge=lfs -text
