@@ -1,6 +1,7 @@
 import json
 import chromadb
 from datetime import datetime
+import math
 
 from utils.general_utils import timeit
 from utils.embedding_utils import MyEmbeddingFunction
@@ -96,16 +97,23 @@ def load_data_to_db(db_path, data):
     
     collection = client.get_collection("huberman_videos")
 
-    documents = [segment['text'] for segment in data]
-    metadata = [segment['metadata'] for segment in data]
-    ids = [segment['metadata']['segment_id'] for segment in data]
+    num_rows = len(data)
+    batch_size = 5461
+    num_batches = math.ceil(num_rows / batch_size)
+    
+    for i in range(num_batches):
+        batch_data = data[i * batch_size : (i + 1) * batch_size]
+        documents = [segment['text'] for segment in batch_data]
+        metadata = [segment['metadata'] for segment in batch_data]
+        ids = [segment['metadata']['segment_id'] for segment in batch_data]
 
-    collection.add(
-        documents=documents,
-        metadatas=metadata,
-        ids=ids
-    )
-
+        collection.add(
+            documents=documents,
+            metadatas=metadata,
+            ids=ids
+        )
+        print(f"Batch {i+1} of {num_batches} loaded to database.")
+        
     print(f"Data loaded to database at {db_path}.")
     
     
