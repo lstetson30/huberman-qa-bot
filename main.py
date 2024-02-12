@@ -2,7 +2,7 @@ from models import llm, retrieval
 import gradio as gr
 
 
-def run_query(question, db_path="data/videos_subset_more_context.db", #dev path
+def run_query(question, db_path="data/videos.db",
               num_rel_segments=5, 
               llm_model="gpt-3.5-turbo-0125", 
               llm_temp=0.1):
