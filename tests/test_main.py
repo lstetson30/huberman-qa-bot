@@ -1,11 +1,14 @@
 from main import run_query
 from utils.general_utils import timeit
 
+from constants import MAIN_VIDEOS_DB_PATH, SINGLE_VIDEO_TEST_DB_PATH, SUBSET_TEST_DB_PATH, LLM_TEST_QUESTION, FITNESS_TEST_QUESTION
+
+
 @timeit
 def test_with_llm_video():
-    db_path = "data/single_video.db"
+    db_path = SINGLE_VIDEO_TEST_DB_PATH
     
-    question = "What are the components of an LLM?"
+    question = LLM_TEST_QUESTION
     print("Question: ", question)
     
     answer = run_query(question,
@@ -16,9 +19,9 @@ def test_with_llm_video():
 
 @timeit
 def test_with_subset():
-    db_path = "data/videos_subset_more_context.db"
+    db_path = SUBSET_TEST_DB_PATH
     
-    question = "How should I train for anerobic capacity?"
+    question = FITNESS_TEST_QUESTION
     print("Question: ", question)
     
     answer = run_query(question,
@@ -33,9 +36,9 @@ def test_with_subset():
     
 @timeit
 def test_with_fullset():
-    db_path = "data/videos.db"
+    db_path = MAIN_VIDEOS_DB_PATH
     
-    question = "How should I train for anerobic capacity?"
+    question = FITNESS_TEST_QUESTION
     print("Question: ", question)
     
     answer = run_query(question,

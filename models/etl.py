@@ -7,9 +7,10 @@ from utils.general_utils import timeit
 from utils.embedding_utils import MyEmbeddingFunction
 from youtube_transcript_api import YouTubeTranscriptApi
 
+from constants import MAIN_VIDEOS_JSON_PATH, TABLE_NAME, DISTANCE_METRIC
 
 @timeit
-def run_etl(json_path="data/videos.json", db=None, batch_size=None, overlap=None):
+def run_etl(json_path=MAIN_VIDEOS_JSON_PATH, db=None, batch_size=None, overlap=None):
     with open(json_path) as f:
         video_info = json.load(f)
         
@@ -77,14 +78,14 @@ def format_transcript(transcript, video_id, video_title, batch_size=None, overla
 
 embed_text = MyEmbeddingFunction()
 
-def initialize_db(db_path, distance_metric="cosine"):
+def initialize_db(db_path, distance_metric=DISTANCE_METRIC):
     client = chromadb.PersistentClient(path=db_path)
     
     # Clear existing data
     # client.reset()
     
     client.create_collection(
-        name="huberman_videos",
+        name=TABLE_NAME,
         embedding_function=embed_text,
         metadata={"hnsw:space": distance_metric}
     )
@@ -95,7 +96,7 @@ def initialize_db(db_path, distance_metric="cosine"):
 def load_data_to_db(db_path, data):
     client = chromadb.PersistentClient(path=db_path)
     
-    collection = client.get_collection("huberman_videos")
+    collection = client.get_collection(TABLE_NAME)
 
     num_rows = len(data)
     batch_size = 5461

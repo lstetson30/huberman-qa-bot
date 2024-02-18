@@ -2,6 +2,8 @@ import openai
 import os
 from dotenv import load_dotenv
 
+from constants import DEFAULT_LLM_MODEL, DEFAULT_LLM_TEMP
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -25,7 +27,9 @@ def format_context(db_query_results):
     return formatted_context
 
 
-def answer_with_context(question, context, model="gpt-3.5-turbo-1106", temperature=0.5):
+def answer_with_context(question, context, 
+                        model=DEFAULT_LLM_MODEL,
+                        temperature=DEFAULT_LLM_TEMP):
     formatted_context = format_context(context)
     
     instruction = '''You are a question-answering bot. The user will ask a question about fitness and recovery. First, you will be provided relevant context. The relevant context are segments of transcripts from Andrew Huberman's playlist on fitness and recovery where he has conversations about these topics. Answer the user's question and include the video title and link to the relevant context where they talk about the topic of the user's question.  When referencing relevant context, return its TITLE and SOURCE. If no context are related to the question, answer the question yourself and state that "No relevant clips were found". Use this format:
