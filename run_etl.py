@@ -10,5 +10,4 @@ if __name__ == "__main__":
     else:
         overlap = None
 
-
     run_etl(json_path=json_path, db=db_path, batch_size=batch_size, overlap=overlap)
