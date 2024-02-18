@@ -5,12 +5,15 @@ from constants import MAIN_VIDEOS_DB_PATH, SINGLE_VIDEO_TEST_DB_PATH, SUBSET_TES
 
 
 @timeit
-def test_with_llm_video():
+def test_with_llm_video() -> None:
+    '''Test the main function with a single video database.'''
+    
     db_path = SINGLE_VIDEO_TEST_DB_PATH
     
     question = LLM_TEST_QUESTION
     print("Question: ", question)
     
+    # Run the query using the single video database
     answer = run_query(question,
                    db_path=db_path
                    )
@@ -18,34 +21,34 @@ def test_with_llm_video():
     print("Answer: ", answer)
 
 @timeit
-def test_with_subset():
+def test_with_subset() -> None:
+    '''Test the main function with a subset database.'''
+    
     db_path = SUBSET_TEST_DB_PATH
     
     question = FITNESS_TEST_QUESTION
     print("Question: ", question)
     
+    # Run the query using the subset of the main database
     answer = run_query(question,
-                   db_path=db_path,
-                   num_rel_segments=10,
-                   llm_model="gpt-3.5-turbo-0125",
-                   llm_temp=0.1
+                   db_path=db_path
                    )
     
     print("Answer: ", answer)    
     
     
 @timeit
-def test_with_fullset():
+def test_with_fullset() -> None:
+    '''Test the main function with the full database.'''
+    
     db_path = MAIN_VIDEOS_DB_PATH
     
     question = FITNESS_TEST_QUESTION
     print("Question: ", question)
     
+    # Run the query using the main database
     answer = run_query(question,
-                   db_path=db_path,
-                   num_rel_segments=10,
-                   llm_model="gpt-3.5-turbo-0125",
-                   llm_temp=0.1
+                   db_path=db_path
                    )
     
     print("Answer: ", answer)
