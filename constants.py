@@ -3,6 +3,8 @@ MAIN_VIDEOS_DB_PATH="data/videos.db"
 SINGLE_VIDEO_TEST_DB_PATH="data/single_video.db"
 SUBSET_TEST_DB_PATH="data/videos_subset_more_context.db"
 
+EMBEDDING_MODEL="YituTech/conv-bert-base"
+
 TABLE_NAME="huberman_videos"
 DISTANCE_METRIC="cosine"
 

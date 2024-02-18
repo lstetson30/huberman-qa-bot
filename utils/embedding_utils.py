@@ -2,8 +2,9 @@ import torch
 from transformers import AutoTokenizer, AutoModel
 from chromadb import Documents, EmbeddingFunction, Embeddings
 
+from constants import EMBEDDING_MODEL
 
-model_name = "YituTech/conv-bert-base"
+model_name = EMBEDDING_MODEL
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModel.from_pretrained(model_name)
 
