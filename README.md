@@ -59,6 +59,11 @@ Enter the path to the database: **data/output_database.db**
 Enter batch size (leave blank for no batching): **10**  
 Enter overlap (leave blank for no overlap): **2**  
 
+## Next Steps/Improvements
+* Evaluate: Create question/expected-answer pairs and compare model outputs
+* Tune: Optimize hyperparameters (num relevant segments, LLM temp, etc.)
+* Get human feedback
+
 ## Acknowledgements
 * Dr. Andrew Huberman - For his informative videos on health-related topics.
 * [The Full Stack](https://github.com/the-full-stack/) - For inspiring this project and providing helpful resources.
