@@ -16,6 +16,12 @@ client = openai.OpenAI(api_key=api_key)
 # Create base to provide context to LLM
 context_result_base = "CONTEXT: {text}\nTITLE: {title}\nSOURCE: {source}\n\n"
 
+LLM_INSTRUCTION = """You are a question-answering bot. The user will ask a question about fitness and recovery. First, you will be provided relevant context. The relevant context are segments of transcripts from Andrew Huberman's playlist on fitness and recovery where he has conversations about these topics. Answer the user's question and include the video title and link to the relevant context where they talk about the topic of the user's question.  When referencing relevant context, return its TITLE and SOURCE. If no context are related to the question, answer the question yourself and state that "No relevant clips were found". Use this format:
+User: ```What is muscle atrophy?```
+AI: ```Muscle atrophy is the decrease in size and wasting of muscle tissue.
+VIDEO: Example video title
+SOURCE: Example video url```
+    """
 
 def format_context(db_query_results: dict) -> str:
     """Formats the context for the LLM response.
@@ -71,12 +77,7 @@ def answer_with_context(
     formatted_context = format_context(context)
 
     # Provide instruction to the LLM
-    instruction = """You are a question-answering bot. The user will ask a question about fitness and recovery. First, you will be provided relevant context. The relevant context are segments of transcripts from Andrew Huberman's playlist on fitness and recovery where he has conversations about these topics. Answer the user's question and include the video title and link to the relevant context where they talk about the topic of the user's question.  When referencing relevant context, return its TITLE and SOURCE. If no context are related to the question, answer the question yourself and state that "No relevant clips were found". Use this format:
-User: ```What is muscle atrophy?```
-AI: ```Muscle atrophy is the decrease in size and wasting of muscle tissue.
-VIDEO: Example video title
-SOURCE: Example video url```
-    """
+    instruction = LLM_INSTRUCTION
 
     # Add RELEVANT CONTEXT heading for LLM
     formatted_context = "RELEVANT CONTEXT:\n```" + formatted_context + "```"
